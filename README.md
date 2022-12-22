@@ -1,2 +1,2 @@
 # Binance-P2P-Dashboard
-Dash board for convenient P2P trading
+Dash board for exploring P2P trading history with exact configurations
