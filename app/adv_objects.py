@@ -50,11 +50,6 @@ class CSV:
                 """If something goes wrong return False to log it"""
                 return False
 
-    @property
-    def get_csv_name(self):
-        return self._filename
-
-
 class Advertisment:
 
     def __init__(self,
