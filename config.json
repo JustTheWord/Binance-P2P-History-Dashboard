@@ -1,0 +1,59 @@
+{
+  "buy": {
+      "data": {
+        "asset": "USDT",
+        "fiat": "RUB",
+        "merchantCheck": false,
+        "page": 1,
+        "payTypes": ["TinkoffNew"],
+        "publisherType": null,
+        "rows": 20,
+        "tradeType": "BUY"
+      },
+
+      "monthFinishRate": 0.9,
+      "monthOrderCount": 15,
+      "surplusAmount": 100,
+      "minSingleTransAmount": 45000,
+
+      "filename": "data_buy.csv",
+      "log_filename": "buy.log"
+
+  },
+
+  "sell": {
+      "data": {
+        "asset": "USDT",
+        "fiat": "CZK",
+        "merchantCheck": false,
+        "page": 1,
+        "payTypes": ["RaiffeisenBank"],
+        "publisherType": null,
+        "rows": 20,
+        "tradeType": "SELL"
+      },
+
+      "monthFinishRate": 0.9,
+      "monthOrderCount": 15,
+      "surplusAmount": 0,
+      "minSingleTransAmount": 15000,
+
+      "filename": "data_sell.csv",
+      "log_filename": "sell.log"
+  },
+
+  "headers": {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
+    "Cache-Control": "no-cache",
+    "Connection": "keep-alive",
+    "Content-Length": "123",
+    "content-type": "application/json",
+    "Host": "p2p.binance.com",
+    "Origin": "https://p2p.binance.com",
+    "Pragma": "no-cache",
+    "TE": "Trailers",
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
+  }
+}

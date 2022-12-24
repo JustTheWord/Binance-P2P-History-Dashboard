@@ -13,13 +13,13 @@ class CSV:
         self._time = time
 
     """Writes data to a csv file"""
-    def write(self, advs_list: List['Advertisment']) -> bool:
+    def write(self, advs_list: List['Advertisement']) -> bool:
         """Binance is already sorted advertising by price -> the best is the first"""
         top_advertising = advs_list[0]
 
         adv_processed = len(advs_list)
 
-        """Average price of all valid advertising"""
+        """Average price of all valid advertisements"""
         average_price = sum([adv.price for adv in advs_list]) / adv_processed
         """Round to 2 decimal places"""
         average_price = float(f"{average_price:.2f}")
@@ -50,7 +50,7 @@ class CSV:
                 """If something goes wrong return False to log it"""
                 return False
 
-class Advertisment:
+class Advertisement:
 
     def __init__(self,
                  price: float = 0.0,
@@ -76,6 +76,3 @@ class Advertisment:
         self.nick_name = nick_name
         self.month_finish_rate = month_finish_rate
         self.month_order_count = month_order_count
-
-
-

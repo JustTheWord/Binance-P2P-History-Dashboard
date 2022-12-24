@@ -1,48 +1,31 @@
 import sys
-
 import requests
 import json
 import logging
 from datetime import datetime as dt
 import time
-from adv_objects import Advertisment, CSV # type: ignore
+from typing import Dict, Any
+from objects import Advertisement, CSV # type: ignore
 
 class Request:
 
     _url = 'https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search'
 
-    _data = {
-        "asset": "USDT",
-        "fiat": "RUB",
-        "merchantCheck": False,
-        "page": 1,
-        "payTypes": ["TinkoffNew"],
-        "publisherType": None,
-        "rows": 20, # exploring the first 20 advertisements
-        "tradeType": "BUY"
-    }
+    def __init__(self,
+                 request_config: Dict[str, Any],
+                 headers: Dict[str, Any]):
 
-    _headers = {
-        "Accept": "*/*",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
-        "Cache-Control": "no-cache",
-        "Connection": "keep-alive",
-        "Content-Length": "123",
-        "content-type": "application/json",
-        "Host": "p2p.binance.com",
-        "Origin": "https://p2p.binance.com",
-        "Pragma": "no-cache",
-        "TE": "Trailers",
-        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
-    }
+        self._config = request_config
+        self._data = request_config['data']
+        self._headers = headers
 
-    logging.basicConfig(level=10,
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        datefmt='%d-%b-%y %H:%M:%S',
-                        handlers=[logging.FileHandler("app.log"), logging.StreamHandler(sys.stdout)])
+        logging.basicConfig(level=10,
+                            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                            datefmt='%d-%b-%y %H:%M:%S',
+                            handlers=[logging.FileHandler("../logs/app.log"),
+                                      logging.StreamHandler(sys.stdout)])
 
-    logger = logging.getLogger("Request")
+        self.logger = logging.getLogger(f"Request_{self._data['tradeType'].lower()}")
 
 
     def request(self):
@@ -61,33 +44,34 @@ class Request:
             valid_advs = []
 
             for row in adv_data:
+
                 adv = row['adv']
                 advertiser = row['advertiser']
 
-                if float(advertiser['monthFinishRate']) < 0.9 or\
-                        int(advertiser['monthOrderCount']) < 15 or\
-                        float(adv['surplusAmount']) < 100 or\
-                        float(adv['minSingleTransAmount']) > 45_000:
+                if float(advertiser['monthFinishRate']) < self._config['monthFinishRate'] or\
+                        int(advertiser['monthOrderCount']) < self._config['monthOrderCount'] or\
+                        float(adv['surplusAmount']) < self._config['surplusAmount'] or\
+                        float(adv['minSingleTransAmount']) > self._config['minSingleTransAmount']:
 
-                    """Not interested in such advertising"""
+                    """Not interested in such advertisements"""
                     continue
 
                 valid_advs.append(
 
-                    Advertisment(float(adv['price']),
-                                 float(adv['surplusAmount']),
-                                 float(adv['minSingleTransAmount']),
-                                 float(adv['dynamicMaxSingleTransAmount']),
-                                 [method['identifier'] for method in adv['tradeMethods']],
+                    Advertisement(float(adv['price']),
+                                  float(adv['surplusAmount']),
+                                  float(adv['minSingleTransAmount']),
+                                  float(adv['dynamicMaxSingleTransAmount']),
+                                  [method['identifier'] for method in adv['tradeMethods']],
 
-                                 advertiser['userNo'],
-                                 advertiser['userType'],
-                                 advertiser['nickName'],
-                                 float(advertiser['monthFinishRate']),
-                                 int(advertiser['monthOrderCount']))
+                                  advertiser['userNo'],
+                                  advertiser['userType'],
+                                  advertiser['nickName'],
+                                  float(advertiser['monthFinishRate']),
+                                  int(advertiser['monthOrderCount']))
                 )
 
-            csv = CSV(time=request_time)
+            csv = CSV(time=request_time, filename=self._config['filename'])
 
             if not valid_advs:
                 self.logger.info("No valid advertising found")
@@ -98,12 +82,21 @@ class Request:
 
 
 if "__main__" == __name__:
+
+    with open('../config.json', 'r') as conf:
+        config = json.load(conf)
+
     try:
         while True:
-            Request().request()
-            time.sleep(30)
+            request = Request(config['buy'], config['headers'])
+            request.request()
+            request.logger.info("--------------------")
+
+            request = Request(config['sell'], config['headers'])
+            request.request()
+            request.logger.info("--------------------")
+            time.sleep(28)
 
     except KeyboardInterrupt:
         print("---------------")
         print("Stop requesting")
-
