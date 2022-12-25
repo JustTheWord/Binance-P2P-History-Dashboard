@@ -1,3 +1,4 @@
+import socket
 import sys
 import requests
 import json
@@ -18,6 +19,7 @@ class Request:
         self._config = request_config
         self._data = request_config['data']
         self._headers = headers
+        self.trade_type = self._data['tradeType'].lower() # 'buy' or 'sell'
 
         logging.basicConfig(level=10,
                             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -25,7 +27,7 @@ class Request:
                             handlers=[logging.FileHandler("../logs/app.log"),
                                       logging.StreamHandler(sys.stdout)])
 
-        self.logger = logging.getLogger(f"Request_{self._data['tradeType'].lower()}")
+        self.logger = logging.getLogger(f"Request_{self.trade_type}")
 
 
     def request(self):
@@ -71,7 +73,8 @@ class Request:
                                   int(advertiser['monthOrderCount']))
                 )
 
-            csv = CSV(time=request_time, filename=self._config['filename'])
+            filename = dt.now().strftime('%d.%m.%y') + '_' + self.trade_type + '.csv'
+            csv = CSV(time=request_time, filename=f"../data/{filename}")
 
             if not valid_advs:
                 self.logger.info("No valid advertising found")
@@ -96,6 +99,10 @@ if "__main__" == __name__:
             request.request()
             request.logger.info("--------------------")
             time.sleep(28)
+
+    except socket.gaierror:
+        print("No internet connection")
+        sys.exit(1)
 
     except KeyboardInterrupt:
         print("---------------")

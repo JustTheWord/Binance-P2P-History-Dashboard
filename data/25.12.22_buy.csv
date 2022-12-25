@@ -1,0 +1,7 @@
+date;processed;averagePrice;topPrice;availableAmount;minSingleTransAmount;maxSingleTransAmount;monthFinishRate;monthOrderCount;tradeMethods;userNo;userType;nickName
+25.12.2022 22:55:27;7;72.12;72.09;9032.98;40000.0;650732.01;0.997;316;TinkoffNew;sb0e6765e05a9349ca350f96bf7279519;merchant;bitan12
+25.12.2022 22:55:57;7;72.12;72.09;3480.49;40000.0;250733.01;0.997;316;TinkoffNew;sb0e6765e05a9349ca350f96bf7279519;merchant;bitan12
+25.12.2022 22:56:27;8;72.12;72.08;2039.76;35000.0;146923.05;0.985;5208;TinkoffNew;sf81a6613c6f43ab08aa5e4f601e8908e;merchant;Maybach
+25.12.2022 22:56:58;8;72.12;72.08;2039.76;35000.0;146923.05;0.985;5208;TinkoffNew;sf81a6613c6f43ab08aa5e4f601e8908e;merchant;Maybach
+25.12.2022 22:57:28;8;72.12;72.08;1484.45;35000.0;106924.3;0.985;5208;TinkoffNew;sf81a6613c6f43ab08aa5e4f601e8908e;merchant;Maybach
+25.12.2022 22:57:58;8;72.12;72.06;790.11;35000.0;56895.49;0.985;5208;TinkoffNew;sf81a6613c6f43ab08aa5e4f601e8908e;merchant;Maybach

@@ -14,11 +14,7 @@
       "monthFinishRate": 0.9,
       "monthOrderCount": 15,
       "surplusAmount": 100,
-      "minSingleTransAmount": 45000,
-
-      "filename": "data_buy.csv",
-      "log_filename": "buy.log"
-
+      "minSingleTransAmount": 45000
   },
 
   "sell": {
@@ -36,10 +32,7 @@
       "monthFinishRate": 0.9,
       "monthOrderCount": 15,
       "surplusAmount": 0,
-      "minSingleTransAmount": 15000,
-
-      "filename": "data_sell.csv",
-      "log_filename": "sell.log"
+      "minSingleTransAmount": 15000
   },
 
   "headers": {

@@ -1,5 +1,6 @@
 from typing import List
 import csv
+import os
 
 
 class CSV:
@@ -25,6 +26,7 @@ class CSV:
         average_price = float(f"{average_price:.2f}")
 
         top_price = top_advertising.price
+        available_amount = top_advertising.available_amount
         min_trans_amount = top_advertising.min_transaction
         max_trans_amount = top_advertising.max_transaction
         month_finish_rate = top_advertising.month_finish_rate
@@ -39,10 +41,19 @@ class CSV:
 
             writer = csv.writer(file, delimiter=';')
 
+            """If file is empty -> write header"""
+            if os.stat(self._filename).st_size == 0:
+                try:
+                    writer.writerow(['date', 'processed','averagePrice', 'topPrice', 'availableAmount', 'minSingleTransAmount', 'maxSingleTransAmount',
+                                     'monthFinishRate', 'monthOrderCount', 'tradeMethods', 'userNo', 'userType', 'nickName'])
+                except csv.Error:
+                    return False
+
+            """Write data"""
             try:
                 writer.writerow([self._time, adv_processed, average_price, top_price,
-                                 min_trans_amount, max_trans_amount, month_finish_rate,
-                                 month_order_count, trade_methods,
+                                 available_amount, min_trans_amount, max_trans_amount,
+                                 month_finish_rate, month_order_count, trade_methods,
                                  user_no, user_type, nick_name])
                 return True
 
