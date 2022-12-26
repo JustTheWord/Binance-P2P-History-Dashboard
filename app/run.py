@@ -32,7 +32,7 @@ class Request:
 
     def request(self):
         self.logger.info("Requesting data from Binance")
-        request_time = dt.now().strftime("%d.%m.%Y %H:%M:%S")
+        request_time = dt.now().strftime("%d.%m.%y %H:%M:%S")
         r = requests.post(self._url, headers=self._headers, json=self._data)
 
         if not r.ok:
@@ -73,7 +73,7 @@ class Request:
                                   int(advertiser['monthOrderCount']))
                 )
 
-            filename = dt.now().strftime('%d.%m.%y') + '_' + self.trade_type + '.csv'
+            filename = request_time.split(' ')[0] + '_' + self.trade_type + '.csv'
             csv = CSV(time=request_time, filename=f"../data/{filename}")
 
             if not valid_advs:
