@@ -73,13 +73,13 @@ class Request:
                                   int(advertiser['monthOrderCount']))
                 )
 
-            filename = request_time.split(' ')[0] + '_' + self.trade_type + '.csv'
-            csv = CSV(time=request_time, filename=f"../data/{filename}")
-
             if not valid_advs:
                 self.logger.info("No valid advertising found")
 
             else:
+                """All data will be saved in the data folder according to the date"""
+                filename = request_time.split(' ')[0] + '_' + self.trade_type + '.csv'
+                csv = CSV(time=request_time, filename=f"../data/{filename}")
                 success = csv.write(valid_advs)
                 self.logger.info("Data written to file") if success else self.logger.error("Data writing failed")
 
