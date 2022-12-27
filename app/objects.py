@@ -44,9 +44,13 @@ class CSV:
             """If file is empty -> write header"""
             if os.stat(self._filename).st_size == 0:
                 try:
-                    writer.writerow(['date', 'processed','averagePrice', 'topPrice', 'availableAmount', 'minSingleTransAmount', 'maxSingleTransAmount',
-                                     'monthFinishRate', 'monthOrderCount', 'tradeMethods', 'userNo', 'userType', 'nickName'])
+                    writer.writerow(['date', 'processed','averagePrice', 'topPrice',
+                                     'availableAmount', 'minSingleTransAmount', 'maxSingleTransAmount',
+                                     'monthFinishRate', 'monthOrderCount', 'tradeMethods',
+                                     'userNo', 'userType', 'nickName'])
+
                 except csv.Error:
+                    """If something goes wrong return False to log it"""
                     return False
 
             """Write data"""
@@ -58,7 +62,6 @@ class CSV:
                 return True
 
             except csv.Error:
-                """If something goes wrong return False to log it"""
                 return False
 
 class Advertisement:
