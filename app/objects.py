@@ -1,6 +1,8 @@
-from typing import List
+from typing import List, Optional
 import csv
 import os
+import sys
+import logging
 
 
 class CSV:
@@ -90,3 +92,27 @@ class Advertisement:
         self.nick_name = nick_name
         self.month_finish_rate = month_finish_rate
         self.month_order_count = month_order_count
+
+
+class Logger:
+
+    logging.basicConfig(level=10,
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        datefmt='%d-%b-%y %H:%M:%S',
+                        handlers=[logging.FileHandler("../logs/app.log"),
+                                  logging.StreamHandler(sys.stdout)])
+    def __init__(self):
+        self._logger = logging.getLogger('Main')
+        self._logger_buy = logging.getLogger('RequestBuy')
+        self._logger_sell = logging.getLogger('RequestSell')
+
+    def get_logger(self, name: str = 'Main') -> logging.Logger:
+        match name:
+            case 'Main':
+                return self._logger
+
+            case 'RequestBuy':
+                return self._logger_buy
+
+            case 'RequestSell':
+                return self._logger_sell

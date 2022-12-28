@@ -1,12 +1,13 @@
 import socket
 import sys
 import requests
+from requests.exceptions import ConnectionError
 import json
 import logging
 from datetime import datetime as dt
 import time
 from typing import Dict, Any
-from objects import Advertisement, CSV # type: ignore
+from objects import Advertisement, CSV, Logger # type: ignore
 
 class Request:
 
@@ -14,20 +15,15 @@ class Request:
 
     def __init__(self,
                  request_config: Dict[str, Any],
-                 headers: Dict[str, Any]):
+                 headers: Dict[str, Any],
+                 logger: Logger,):
 
         self._config = request_config
         self._data = request_config['data']
         self._headers = headers
         self.trade_type = self._data['tradeType'].lower() # 'buy' or 'sell'
 
-        logging.basicConfig(level=10,
-                            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                            datefmt='%d-%b-%y %H:%M:%S',
-                            handlers=[logging.FileHandler("../logs/app.log"),
-                                      logging.StreamHandler(sys.stdout)])
-
-        self.logger = logging.getLogger(f"Request_{self.trade_type}")
+        self.logger = logger.get_logger(f'Request{self.trade_type.capitalize()}')
 
 
     def request(self):
@@ -89,21 +85,36 @@ if "__main__" == __name__:
     with open('../config.json', 'r') as conf:
         config = json.load(conf)
 
-    try:
-        while True:
-            request = Request(config['buy'], config['headers'])
-            request.request()
-            request.logger.info("--------------------")
+    log = Logger()
+    main_logger = log.get_logger('Main')
+    """Variable to restart the program if the connection is lost"""
+    tries = 0
 
-            request = Request(config['sell'], config['headers'])
+    while True:
+        try:
+            request = Request(config['buy'], config['headers'], log)
             request.request()
-            request.logger.info("--------------------")
+            main_logger.info("--------------------")
+
+            request = Request(config['sell'], config['headers'], log)
+            request.request()
+            main_logger.info("--------------------")
             time.sleep(28)
 
-    except socket.gaierror:
-        print("No internet connection")
-        sys.exit(1)
+        except (ConnectionError, socket.gaierror) as err:
+            tries += 1
+            wait = 2 ** tries # exponential backoff
+            main_logger.error(f"Connection error: {err}. Waiting {wait} seconds")
 
-    except KeyboardInterrupt:
-        print("---------------")
-        print("Stop requesting")
+            if tries > 8:
+                main_logger.error("Too many connection errors. Exiting")
+                raise err
+
+            else:
+                time.sleep(wait)
+                continue
+
+        except KeyboardInterrupt:
+            main_logger.info("--------------------")
+            main_logger.info("Program stopped by user")
+            break
