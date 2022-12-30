@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 requests = "*"
+dash = "*"
+dash-bootstrap-components = "*"
+pandas = "*"
+plotly = "*"
 
 [dev-packages]
 

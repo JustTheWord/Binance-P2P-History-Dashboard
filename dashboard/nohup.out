@@ -1,0 +1,12 @@
+Dash is running on http://127.0.0.1:8000/
+
+ * Serving Flask app 'dashboard'
+ * Debug mode: on
+Address already in use
+Port 8000 is in use by another program. Either identify and stop that program, or start the server with a different port.
+Dash is running on http://127.0.0.1:8000/
+
+ * Serving Flask app 'dashboard'
+ * Debug mode: on
+Address already in use
+Port 8000 is in use by another program. Either identify and stop that program, or start the server with a different port.
