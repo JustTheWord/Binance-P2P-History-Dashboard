@@ -1,9 +1,7 @@
 import socket
-import sys
 import requests
 from requests.exceptions import ConnectionError
 import json
-import logging
 from datetime import datetime as dt
 import time
 from typing import Dict, Any
