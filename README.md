@@ -29,7 +29,11 @@ $ mkdir data logs
 ```
 $ pipenv install
 ```
-7. You may want to change the configuration. Open config.json with any editor.
+7. If you want to change the configuration, open config.json with any editor.
+```
+$ vim config.json
+```
+
  ![](images/config.png)
  ![](images/p2p_interface.png)
 
