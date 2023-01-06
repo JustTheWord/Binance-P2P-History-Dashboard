@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 import csv
 import os
 import sys
@@ -17,7 +17,7 @@ class CSV:
 
     """Writes data to a csv file"""
     def write(self, advs_list: List['Advertisement']) -> bool:
-        """Binance is already sorted advertising by price -> the best is the first"""
+        """Binance has already sorted advertisements by price -> the best is the first"""
         top_advertising = advs_list[0]
 
         adv_processed = len(advs_list)
