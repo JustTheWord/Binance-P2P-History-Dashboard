@@ -1,5 +1,5 @@
 # Binance-P2P-Dashboard
-Dash board for exploring P2P trading history with exact configurations
+Dashboard for exploring P2P trading history with exact configurations
 
 ![](images/dashboard.png)
 
