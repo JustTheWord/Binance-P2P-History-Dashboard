@@ -21,7 +21,7 @@ $ pip install pipenv
 ```
 $ cd Binance-P2P-History-Dashboard
 ```
-5. Create /data and /logs directories in advance
+5. Create data/ and logs/ directories in advance
 ```
 $ mkdir data logs
 ```
